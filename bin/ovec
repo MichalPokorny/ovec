@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+
+require 'ovec'
+
+content = ARGF.read
+
+parser = Ovec::Parser.new
+tree = parser.parse(content)
+tm = Ovec::TextManipulator.new
+tm.bind(tree)
+
+tier = Ovec::Tier.new
+
+tm.run_text_manipulator(tier)
+
+puts tree.to_tex
