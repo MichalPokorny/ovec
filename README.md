@@ -1,6 +1,6 @@
 # Ovec
 
-TODO: Write a gem description
+Ovec is a linter for Czech TeX documents inspired by the capabilities of Vlna by Petr Olšák (http://petr.olsak.net/).
 
 ## Installation
 
@@ -18,7 +18,7 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+TODO: Write usage instructions here (when Ovec is ready)
 
 ## Contributing
 
