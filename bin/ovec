@@ -6,7 +6,8 @@ content = ARGF.read
 
 parser = Ovec::Parser.new
 tree = parser.parse(content)
-tm = Ovec::TextManipulator.new
+
+tm = Ovec::TexManipulator.new
 tm.bind(tree)
 
 tier = Ovec::Tier.new
