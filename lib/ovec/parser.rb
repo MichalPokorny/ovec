@@ -10,7 +10,7 @@ module Ovec
 		COMMAND_REGEX = /\A\\([a-zA-Z0-9]+|[%:,\\])/
 		COMMENT_REGEX = /\A%.*$/
 
-		TEXT_COMMANDS = %w(textit textbf)
+		TEXT_COMMANDS = %w(textit textbf textsc title author)
 		# TODO: seznam prikazu, ve kterych se nevlnkuje
 	
 		NONTEXT_CONTENT_COMMANDS = %w() # TODO: treba \begin, \end, ...

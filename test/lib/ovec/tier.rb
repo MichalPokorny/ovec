@@ -55,5 +55,10 @@ module Ovec
 		def test_tie_a_after_pause
 			assert_ties_to "Kone se pasou, a ovce se pasou.", "Kone se pasou, a~ovce se pasou."
 		end
+
+		def test_tie_date
+			assert_ties_to "3. 4. 2012", "3.~4.~2012"
+			assert_ties_to "1. leden 1950", "1.~leden~1950"
+		end
 	end
 end
