@@ -7,7 +7,7 @@ module Ovec
 			((\p{Z}|\~|\n)[KkSsVvZzOoUu]\p{Z})|   # KSVZOU jako samostatne slovo
 			([\.\?\!](\p{Z}|\~)+[KSVZOUAI]\p{Z})| # KSVZOUAI na zacatku vety
 			(\A[KSVZOUAI]\p{Z})|                  # KSVZOUAI na zacatku textu
-			(\p{Z}(?=--\p{Z}))|                   # mezera, za kterou je pomlcka
+			(\p{Z}(?=--(\p{Z}|\n)))|              # mezera, za kterou je pomlcka
 			(,(\p{Z}|\~|\n)+a\p{Z})               # ... modulo 10, a~timto prvkem ...; TODO: plati tohle i pro "i"?
 		)/x
 

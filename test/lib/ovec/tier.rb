@@ -46,6 +46,7 @@ module Ovec
 
 		def test_tie_dash
 			assert_ties_to "Ach -- pomlcka!", "Ach~-- pomlcka!"
+			assert_ties_to "Ach --\npomlcka!", "Ach~--\npomlcka!"
 		end
 
 		def test_tie_across_newline
