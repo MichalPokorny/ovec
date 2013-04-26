@@ -18,7 +18,11 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here (when Ovec is ready)
+Use the installed binary `ovec` as a filter.
+Right now, it writes out some debug messages to stderr - this will be fixed in a later version.
+Usage example:
+
+    $ cat input.tex | ovec > output.tex
 
 ## Contributing
 
