@@ -15,7 +15,7 @@ module Ovec
 		# All changes within this regex are changed to a tilde.
 		DATE_REGEX = /(
 			(?<=\p{Z})\p{Nd}{1,2}\.\p{Z}
-			(\p{Nd}{1,2}\.|leden|únor|březen|duben|květen|červen|červenec|srpen|září|říjen|listopad|prosinec|
+			(\p{Nd}{1,2}\.|leden|únor|březen|duben|květen|červen|červenec|srpen|září|říjen|listopad|prosinec| # TODO: plne sklonovani? nebo nejaky wildcard?
 				ledna|února|března|dubna|května|června|července|srpna|září|října|listopadu|prosince)\p{Z}
 			\p{Nd}{4}(?=\p{Z}) # Datum jako "1. 5. 2013"
 		)/x
