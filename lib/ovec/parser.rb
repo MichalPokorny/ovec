@@ -7,7 +7,7 @@ module Ovec
 	class Parser
 		NORMAL_REGEX = /\A([^\\$%])+/
 		# TODO: more escapes: there are probably 10x more...
-		COMMAND_REGEX = /\A\\([a-zA-Z0-9]+|[%:,\\])/
+		COMMAND_REGEX = /\A\\([a-zA-Z0-9]+|[~%:,^$&\\ ])/
 		COMMENT_REGEX = /\A%.*$/
 
 		TEXT_COMMANDS = %w(textit textbf textsc title author)
@@ -19,7 +19,9 @@ module Ovec
 
 		private
 		def debug(*args)
-			$stderr.puts(*args)
+			if @debug
+				$stderr.puts(*args)
+			end
 		end
 
 		def find_other_side(string, start, left = '{', right = '}')
@@ -38,6 +40,10 @@ module Ovec
 		end
 
 		public
+		def initialize(debug: false)
+			@debug = debug
+		end
+
 		def self.delimiter_right_side(left)
 			{
 				'{' => '}', '[' => ']', '(' => ')', '<' => '>'

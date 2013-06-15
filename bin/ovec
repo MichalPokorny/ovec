@@ -1,10 +1,61 @@
 #!/usr/bin/env ruby
 
 require 'ovec'
+require 'optparse'
 
-content = ARGF.read
+options = {}
 
-parser = Ovec::Parser.new
+opts_parser = OptionParser.new do |opts|
+	opts.banner = "Usage: ovec [options]"
+
+	opts.on("-i", "--input FILENAME", "Input filename or - for stdin (required)") do |filename|
+		options[:input] = filename
+	end
+
+	opts.on("-o", "--output FILENAME", "Output filename or - for stdout (required)") do |filename|
+		options[:output] = filename
+	end
+
+	opts.on("-d", "--[no-]debug", "Show debugging messages (on STDERR)") do |v|
+		options[:debug] = v
+	end
+
+	opts.on_tail("-h", "--help", "Show this message") do
+		puts opts
+		exit
+	end
+
+	opts.on_tail("-v", "--version", "Show version") do
+		puts Ovec::NAME_WITH_VERSION
+		exit
+	end
+end
+
+input_file = nil
+output_file = nil
+
+begin
+	opts_parser.parse!
+	unless options.key?(:input) && options.key?(:output)
+		$stderr.puts "You must specify both an input file and an output file."
+		$stderr.puts opts_parser.help
+		exit 1
+	end
+
+	input_file = (options[:input] == '-') ? STDIN : File.open(options[:input], "r")
+	output_file = (options[:output] == '-') ? STDOUT : File.open(options[:output], "w")
+rescue OptionParser::ParseError => ex
+	$stderr.puts "Invalid options: #{ex.message}"
+	$stderr.puts opts_parser.help
+	exit 1
+rescue StandardError => ex
+	$stderr.puts ex.message
+	exit 1
+end
+
+content = input_file.read
+
+parser = Ovec::Parser.new(debug: options[:debug])
 tree = parser.parse(content)
 
 tm = Ovec::TexManipulator.new
@@ -14,4 +65,7 @@ tier = Ovec::Tier.new
 
 tm.run_text_manipulator(tier)
 
-puts tree.to_tex
+output_file.puts tree.to_tex
+
+input_file.close
+output_file.close

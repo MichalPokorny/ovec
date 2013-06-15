@@ -73,5 +73,11 @@ module Ovec
 			result = @parser.parse(text)
 			assert_equal text, result.to_tex
 		end
+
+		def test_weird_commands_parsed
+			text = '\%\ \\\ \ahoj\~\^\,\:\$\&'
+			result = @parser.parse(text)
+			assert_equal text, result.to_tex
+		end
 	end
 end
