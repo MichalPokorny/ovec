@@ -7,7 +7,7 @@ module Ovec
 	class Parser
 		NORMAL_REGEX = /\A([^\\$%])+/
 		# TODO: more escapes: there are probably 10x more...
-		COMMAND_REGEX = /\A\\([a-zA-Z0-9]+|[~%:,^$&\\ ])/
+		COMMAND_REGEX = /\A\\([a-z@A-Z0-9]+|[-~%:,^$&\\ \]\[_\n#`"=.'<+])/
 		COMMENT_REGEX = /\A%.*$/
 
 		TEXT_COMMANDS = %w(textit textbf textsc title author)

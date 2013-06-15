@@ -75,7 +75,13 @@ module Ovec
 		end
 
 		def test_weird_commands_parsed
-			text = '\%\ \\\ \ahoj\~\^\,\:\$\&'
+			text = '\_\%\ \\\ \ahoj\~\^\,\:\$\&$\[\]$\[\] \[#1]{\,\hbox{#1}}\#\`\.\,a' + "\'\\\n\\<find>\+"
+			result = @parser.parse(text)
+			assert_equal text, result.to_tex
+		end
+
+		def test_command_with_at_parsed
+			text = '\@hoj\@'
 			result = @parser.parse(text)
 			assert_equal text, result.to_tex
 		end
