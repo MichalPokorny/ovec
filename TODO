@@ -1,10 +1,9 @@
 - vlnky kolem promennych: graf~$X$, promenna~$Y$, ...
+	- bohuzel nejspis AI-uplne
 - \, v cislech misto mezery?
 - ,~... (respektive \dots; nechci za tim sezrat mezeru - ???)
 	- varovat na ...?
 - uvozovky (bacha na neparove). warn / correct?
-- vlnkovadlo dle Olsaka.
-- pozorovat ovlnkovany zdrojak.
 - nevlnkovat:
 	- obecne makra, ve kterych se nevlnkuje
 
