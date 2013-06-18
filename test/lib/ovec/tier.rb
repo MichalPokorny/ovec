@@ -8,7 +8,7 @@ module Ovec
 
 		private
 		def assert_ties_to(input, output)
-			parser = Ovec::Parser.new(debug: true)
+			parser = Ovec::Parser.new(debug: false)
 			tree = parser.parse(input.dup)
 
 			tm = Ovec::TexManipulator.new
@@ -25,18 +25,7 @@ module Ovec
 		def test_basic_without_ties
 			text = "Ahoj. Jak se máš?"
 			text_duplicate = text.dup
-
-			parser = Ovec::Parser.new(debug: true)
-			tree = parser.parse(text)
-
-			tm = Ovec::TexManipulator.new
-			tm.bind(tree)
-
-			tm.run_text_manipulator(@tier)
-
-			text = tree.to_tex
-
-			assert_equal text, text_duplicate
+			assert_ties_to text, text_duplicate
 		end
 
 		def test_simple_tie
@@ -80,6 +69,8 @@ module Ovec
 		def test_tie_in_newline
 			assert_ties_to "V\nrámci\ntohohle", "V~rámci\ntohohle"
 			assert_ties_to "V\nrámci tohohle", "V~rámci tohohle"
+			assert_ties_to "medved\nv\nulu", "medved\nv~ulu"
+			assert_ties_to "v\nulu", "v~ulu"
 		end
 
 		def test_date_regex_ok

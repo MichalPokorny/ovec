@@ -4,9 +4,8 @@ module Ovec
 	class Tier < TextManipulator
 		# The last character this regex matches is changed to a tilde.
 		REGEX = /(
-			((\p{Z}|[~\n()\[\]\{\}])[KkSsVvZzOoUu](\p{Z}|\n))|   # KSVZOU jako samostatne slovo
-			([\.\?\!](\p{Z}|\~)+[KSVZOUAI](\p{Z}|\n))| # KSVZOUAI na zacatku vety
-			(\A[KSVZOUAI](\p{Z}|\n))|                  # KSVZOUAI na zacatku textu
+			((\p{Z}|[~\n(\[\{]|\A)[KkSsVvZzOoUu](\p{Z}|\n|\Z))|   # KSVZOU jako samostatne slovo
+			((([\.\?\!](\p{Z}|\~)+)|(\A\p{Z}*))[KSVZOUAI](\p{Z}|\n))| # KSVZOUAI na zacatku vety
 			(\p{Z}(?=--(\p{Z}|\n)))|              # mezera, za kterou je pomlcka
 			(,(\p{Z}|\~|\n)+a(\p{Z}|\n))               # ... modulo 10, a~timto prvkem ...; TODO: plati tohle i pro "i"?
 		)/x
@@ -43,6 +42,8 @@ module Ovec
 						# newline -- move the tied word to the other line.
 						j = change - 1
 						while j >= 0
+							break if @joined[j] == '\n' # Don't cross newlines.
+
 							if @joined[j] == ' '
 								chunk, offset = _find_chunk_and_offset(j)
 								chunk[offset] = '\n'
