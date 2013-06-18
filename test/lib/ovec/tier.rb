@@ -6,30 +6,41 @@ module Ovec
 			@tier = Tier.new
 		end
 
+		private
+		def assert_ties_to(input, output)
+			parser = Ovec::Parser.new(debug: true)
+			tree = parser.parse(input.dup)
+
+			tm = Ovec::TexManipulator.new
+			tm.bind(tree)
+
+			tm.run_text_manipulator(@tier)
+
+			text = tree.to_tex
+
+			assert_equal output, text
+		end
+
+		public
 		def test_basic_without_ties
 			text = "Ahoj. Jak se máš?"
 			text_duplicate = text.dup
-			@tier.bind([text_duplicate])
-			@tier.run
-			assert_equal text, text_duplicate
-		end
 
-		private
-		def assert_ties_to(input, output)
-			input = [input] if input.is_a? String
-			output = [output] if output.is_a? String
-			text = input.dup
-			@tier.bind(test)
-			@tier.run
-			assert_equal text, outpu
+			parser = Ovec::Parser.new(debug: true)
+			tree = parser.parse(text)
+
+			tm = Ovec::TexManipulator.new
+			tm.bind(tree)
+
+			tm.run_text_manipulator(@tier)
+
+			text = tree.to_tex
+
+			assert_equal text, text_duplicate
 		end
 
 		def test_simple_tie
 			assert_ties_to "K blabla u blabla s blabla.", "K~blabla u~blabla s~blabla."
-		end
-
-		def test_array_tie
-			assert_ties_to [ "K blabla u", " blabla ", "s blabla.", " A blabla?" ], [ "K~blabla u", "~blabla ", "s~blabla.", " A~blabla?" ]
 		end
 
 		def test_regex_works
@@ -50,7 +61,7 @@ module Ovec
 		end
 
 		def test_tie_across_newline
-			assert_ties_to "Pojednani pojednavajici\no pojednavani.", "Pojednavani pojednavajici\no~pojednavani."
+			assert_ties_to "Pojednavani pojednavajici\no pojednavani.", "Pojednavani pojednavajici\no~pojednavani."
 		end
 
 		def test_tie_a_after_pause
@@ -64,6 +75,17 @@ module Ovec
 
 		def test_tie_various
 			assert_ties_to "Je-li x sudé, je dělitelné dvěma (v opačném případě není).", "Je-li x sudé, je dělitelné dvěma (v~opačném případě není)."
+		end
+
+		def test_tie_in_newline
+			assert_ties_to "V\nrámci\ntohohle", "V~rámci\ntohohle"
+			assert_ties_to "V\nrámci tohohle", "V~rámci tohohle"
+		end
+
+		def test_date_regex_ok
+			assert "10" =~ /\A\p{Nd}*\Z/
+			assert "1. 3. 2013" =~ Tier::DATE_REGEX
+			assert "Bylo zrovna 1. 3. 2013." =~ Tier::DATE_REGEX
 		end
 	end
 end

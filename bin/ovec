@@ -6,13 +6,9 @@ require 'optparse'
 options = {}
 
 opts_parser = OptionParser.new do |opts|
-	opts.banner = "Usage: ovec [options]"
+	opts.banner = "Usage: ovec [options] [input file(s)]"
 
-	opts.on("-i", "--input FILENAME", "Input filename or - for stdin (required)") do |filename|
-		options[:input] = filename
-	end
-
-	opts.on("-o", "--output FILENAME", "Output filename or - for stdout (required)") do |filename|
+	opts.on("-o", "--output FILENAME", "Output filename (STDOUT is used if omitted)") do |filename|
 		options[:output] = filename
 	end
 
@@ -31,19 +27,11 @@ opts_parser = OptionParser.new do |opts|
 	end
 end
 
-input_file = nil
 output_file = nil
 
 begin
 	opts_parser.parse!
-	unless options.key?(:input) && options.key?(:output)
-		$stderr.puts "You must specify both an input file and an output file."
-		$stderr.puts opts_parser.help
-		exit 1
-	end
-
-	input_file = (options[:input] == '-') ? STDIN : File.open(options[:input], "r")
-	output_file = (options[:output] == '-') ? STDOUT : File.open(options[:output], "w")
+	output_file = options[:output] ? File.open(options[:output], "w") : STDOUT
 rescue OptionParser::ParseError => ex
 	$stderr.puts "Invalid options: #{ex.message}"
 	$stderr.puts opts_parser.help
@@ -53,7 +41,8 @@ rescue StandardError => ex
 	exit 1
 end
 
-content = input_file.read
+# OptionParser#parse! changes ARGV, so ARGF works here.
+content = ARGF.read
 
 parser = Ovec::Parser.new(debug: options[:debug])
 tree = parser.parse(content)
@@ -66,6 +55,4 @@ tier = Ovec::Tier.new
 tm.run_text_manipulator(tier)
 
 output_file.puts tree.to_tex
-
-input_file.close
 output_file.close
