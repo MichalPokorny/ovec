@@ -19,10 +19,21 @@ Or install it yourself as:
 ## Usage
 
 Use the installed binary `ovec` as a filter.
-Right now, it writes out some debug messages to stderr - this will be fixed in a later version.
 Usage example:
 
     $ cat input.tex | ovec > output.tex
+
+You may also pass input files as command-line arguments. If you pass multiple files, they will be concatenated, and filtered as one file.
+
+    $ ovec input1.tex input2.tex input3.tex > output.tex
+
+You can use the `-o` (`--output`) option to specify an output file:
+
+    $ ovec input.tex -o output.tex
+
+Other options include `-d` (or `--[no-]debug`) for showing debugging messages on STDERR,
+`-v` (`--version`), which tells you the installed version of Ovec, and `-h` (`--help`),
+which shows a concise summary of available options and flags.
 
 ## Contributing
 
