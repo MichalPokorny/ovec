@@ -61,5 +61,9 @@ module Ovec
 			assert_ties_to "3. 4. 2012", "3.~4.~2012"
 			assert_ties_to "1. leden 1950", "1.~leden~1950"
 		end
+
+		def test_tie_various
+			assert_ties_to "Je-li x sudé, je dělitelné dvěma (v opačném případě není).", "Je-li x sudé, je dělitelné dvěma (v~opačném případě není)."
+		end
 	end
 end
